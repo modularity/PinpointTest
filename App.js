@@ -13,24 +13,26 @@ import {
 import Amplify from 'aws-amplify';
 
 // aws configuration
+import aws_exports from './aws-exports';
 import {PushNotification} from 'aws-amplify-react-native';
-import aws_exports from './aws_exports';
 Amplify.configure(aws_exports);
 PushNotification.configure(aws_exports);
 
-type Props = {};
-export default class App extends Component<Props> {
 
-  // get notification data
-  PushNotification.onNotification(data => {
-      // object structure will be different from Android and iOS
-      console.warn('Notification payload', data);
-  });
+var message = "placeholder";
+// get notification data
+PushNotification.onNotification(data => {
+    // object structure will be different from Android and iOS
+    console.warn('Notification payload', data);
+    message = "Notification received";
+});
 
-  // get the registration token
-  PushNotification.onRegister(token => {
-      console.warn('in app registration', token);
-  });
+// get the registration token
+PushNotification.onRegister(token => {
+    console.warn('in app registration', token);
+});
+
+export default class App extends Component<{}> {
 
   render() {
     return (
@@ -41,6 +43,7 @@ export default class App extends Component<Props> {
         <Text style={styles.instructions}>
           To get started, edit App.js
         </Text>
+        <Text>{message}</Text>
       </View>
     );
   }
